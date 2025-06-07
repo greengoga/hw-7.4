@@ -34,3 +34,34 @@ describe("Github page tests", () => {
     expect(actual).toContain("Sign up for free");
   }, 5000);
 });
+
+// --- New tests outside 'describe' ---
+
+async function testPageH1(url, expectedText) {
+  const newPage = await browser.newPage();
+  await newPage.goto(url);
+  const h1Text = await newPage.$eval("h1", (el) => el.textContent.trim());
+  expect(h1Text).toContain(expectedText);
+  await newPage.close();
+}
+
+test("Main page h1", async () => {
+  await testPageH1(
+    "https://github.com/",
+    "Build and ship software on a single, collaborative platform"
+  );
+}, 5000);
+
+test("Pricing page h1", async () => {
+  await testPageH1(
+    "https://github.com/pricing",
+    "Try the Copilot-powered platform"
+  );
+}, 5000);
+
+test("Enterprise page h1", async () => {
+  await testPageH1(
+    "https://github.com/enterprise",
+    "The AI-powered developer platform"
+  );
+}, 5000);
